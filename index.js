@@ -3,6 +3,7 @@ import cors from 'cors'
 import mongoose from "mongoose";
 import 'dotenv/config'
 import postRouter from './routes/posts.js'
+import usersRouter from './routes/users.js'
 import path from 'path'
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
@@ -34,6 +35,7 @@ mongoose.connect(mongooseUrl)
     })
 
 app.use('/api/posts', postRouter)
+app.use('/api/users', usersRouter)
 
 app.listen(port, () => {
     console.log(`Listening on http://localhost:${port}`);
