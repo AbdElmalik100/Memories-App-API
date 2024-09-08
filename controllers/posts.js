@@ -1,5 +1,6 @@
 import { validationResult } from 'express-validator'
 import Posts from '../models/posts.js'
+import { io } from '../index.js'
 
 const getPosts = async (req, res) => {
     try {
@@ -43,11 +44,10 @@ const createPost = async (req, res) => {
 
         await newPost.save()
         await newPost.populate('creator')
-
+        
         return res.status(201).json(newPost)
     } catch (error) {
         console.log(error);
-
         return res.status(400).json(error)
     }
 }
@@ -98,6 +98,7 @@ const likePost = async (req, res) => {
         } else post.likes = post.likes.filter(el => el !== user.id)
 
         const likedPost = await Posts.findByIdAndUpdate(id, post, { new: true }).populate("creator")
+
 
         return res.status(200).json(likedPost)
 
