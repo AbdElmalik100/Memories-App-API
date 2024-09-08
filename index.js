@@ -19,7 +19,7 @@ const app = express()
 const server = createServer(app)
 export const io = new Server(server, {
     cors: {
-        origin: "http://localhost:5173"
+        origin: ["http://localhost:5173", "https://memories-app-front-end.vercel.app"]
     }
 })
 
@@ -71,7 +71,7 @@ io.on('connection', socket => {
                 post: payload.post,
                 user: payload.user
             })
-            createNotification(payload.post.creator._id, payload.user._id, 'like', payload.post._id, 'liked your post')
+            if(payload.post.creator._id !== payload.user._id) createNotification(payload.post.creator._id, payload.user._id, 'like', payload.post._id, 'liked your post')
         }
     })
 
